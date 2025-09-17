@@ -2,7 +2,9 @@
  * Otávio Magno RM 566149
  * Mikael de Albuquerque Santana RM 566507
  * Murilo Henrique Vieira Cruz RM  563743
- * 
+ * Vitor Pucci  RM 561736
+ * Guilherme de Medeiros RM 561699
+
 
 
 # Dashboard Futebol Feminino
