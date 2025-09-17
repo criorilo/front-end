@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -17,8 +17,27 @@ import {
   Sparkles
 } from 'lucide-react';
 
+interface Team {
+  id: number;
+  name: string;
+  points: number;
+  position: number;
+  change: string;
+}
+
+interface Player {
+  id: number;
+  name: string;
+  team: string;
+  points: number;
+  position: number;
+  change: string;
+}
+
 const Dashboard = () => {
-  const [activeTab, setActiveTab] = useState('teams');
+  const [activeTab, setActiveTab] = useState<'teams' | 'players'>('teams');
+  const [teamsRanking, setTeamsRanking] = useState<Team[]>([]);
+  const [playersRanking, setPlayersRanking] = useState<Player[]>([]);
   const navigate = useNavigate();
 
   // Mock user data
@@ -28,22 +47,19 @@ const Dashboard = () => {
     navigate('/');
   };
 
-  // Dados mockados para demonstração
-  const teamsRanking = [
-    { id: 1, name: 'Corinthians Feminino', points: 2850, position: 1, change: '+2' },
-    { id: 2, name: 'Palmeiras Feminino', points: 2780, position: 2, change: '-1' },
-    { id: 3, name: 'São Paulo Feminino', points: 2720, position: 3, change: '+1' },
-    { id: 4, name: 'Santos Feminino', points: 2680, position: 4, change: '-2' },
-    { id: 5, name: 'Flamengo Feminino', points: 2650, position: 5, change: '0' },
-  ];
+  useEffect(() => {
+    // Buscar times
+    fetch('http://localhost:8080/stats/games/top5')
+      .then(res => res.json())
+      .then(data => setTeamsRanking(data))
+      .catch(err => console.error(err));
 
-  const playersRanking = [
-    { id: 1, name: 'Marta', team: 'Orlando Pride', points: 95, position: 1, change: '+1' },
-    { id: 2, name: 'Debinha', team: 'Kansas City Current', points: 92, position: 2, change: '-1' },
-    { id: 3, name: 'Adriana', team: 'Orlando Pride', points: 89, position: 3, change: '+2' },
-    { id: 4, name: 'Kerolin', team: 'North Carolina Courage', points: 87, position: 4, change: '0' },
-    { id: 5, name: 'Bia Zaneratto', team: 'Palmeiras', points: 85, position: 5, change: '-2' },
-  ];
+    // Buscar jogadoras
+    fetch('http://localhost:8080/stats/players/top5')
+      .then(res => res.json())
+      .then(data => setPlayersRanking(data))
+      .catch(err => console.error(err));
+  }, []);
 
   const getPositionIcon = (position: number) => {
     switch (position) {
@@ -68,7 +84,7 @@ const Dashboard = () => {
     <div className="min-h-screen bg-gradient-hero">
       {/* Header */}
       <div className="bg-card/80 backdrop-blur-sm border-b border-border shadow-card sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-gradient-primary rounded-full flex items-center justify-center shadow-soft">
@@ -79,6 +95,19 @@ const Dashboard = () => {
                 <p className="text-sm text-muted-foreground">Futebol Feminino</p>
               </div>
             </div>
+            
+            {/* Botão Social centralizado */}
+            <div className="absolute left-1/2 transform -translate-x-1/2">
+              <Button
+                onClick={() => navigate('/social')}
+                className="bg-gradient-primary text-white shadow-card hover:shadow-soft transition-smooth px-6 py-2 rounded-full font-medium"
+              >
+                <Heart className="h-4 w-4 mr-2 fill-current" />
+                Social
+                <Sparkles className="h-4 w-4 ml-2" />
+              </Button>
+            </div>
+            
             <div className="flex items-center space-x-4">
               <div className="text-right hidden sm:block">
                 <p className="text-sm font-medium text-foreground">Olá, {user.name}!</p>

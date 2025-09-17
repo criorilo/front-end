@@ -1,73 +1,139 @@
-# Welcome to your Lovable project
+# Participantes
+ * Otávio Magno RM 566149
+ * Mikael de Albuquerque Santana RM 566507
+ * Murilo Henrique Vieira Cruz RM  563743
+ * 
 
-## Project info
 
-**URL**: https://lovable.dev/projects/23c57d66-7500-450e-828e-36435f4b2691
+# Dashboard Futebol Feminino
 
-## How can I edit this code?
+Um dashboard interativo que exibe os **top 5 times femininos** e **top 5 jogadoras** utilizando dados de uma API Spring Boot baseada no StatsBomb Open Data.
 
-There are several ways of editing your application.
+O frontend foi desenvolvido em **React + TypeScript** com **Tailwind CSS** e componentes de UI personalizados.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/23c57d66-7500-450e-828e-36435f4b2691) and start prompting.
+## Funcionalidades
 
-Changes made via Lovable will be committed automatically to this repo.
+* Visualização dos **Top 5 Times Femininos**, ordenados por pontos.
+* Visualização das **Top 5 Jogadoras**, mostrando nome e time.
+* Layout responsivo com cards estatísticos.
+* Indicadores de posição e variação de ranking (ex: +1, -2).
+* Mensagem de boas-vindas personalizada para o usuário.
+* Alternância de abas entre ranking de times e jogadoras.
+* Logout simples simulando navegação para a página inicial.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## Tecnologias Utilizadas
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+**Frontend:**
 
-Follow these steps:
+* React 18
+* TypeScript
+* Tailwind CSS
+* Lucide Icons
+* React Router DOM
+* Componentes de UI customizados (`Card`, `Badge`, `Button`)
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+**Backend (API Spring Boot):**
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+* Java 17+
+* Spring Boot
+* API REST simulando dados do StatsBomb Open Data (em memória)
+* Endpoints:
 
-# Step 3: Install the necessary dependencies.
-npm i
+  * `GET /statsbomb/games/top5` → Top 5 jogos femininos
+  * `GET /statsbomb/players/top5` → Top 5 jogadoras
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+---
+
+## Estrutura do Projeto
+
+```
+src/
+├─ components/        # Componentes reutilizáveis (Card, Badge, Button)
+├─ pages/
+│  └─ Dashboard.tsx   # Página principal com ranking de times e jogadoras
+├─ App.tsx            # Configuração de rotas
+├─ index.tsx          # Entry point do React
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Executando o Frontend
 
-**Use GitHub Codespaces**
+1. Instale as dependências:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+npm install
+```
 
-## What technologies are used for this project?
+2. Inicie o servidor de desenvolvimento:
 
-This project is built with:
+```bash
+npm start
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+O dashboard estará disponível em `http://localhost:3000`.
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/23c57d66-7500-450e-828e-36435f4b2691) and click on Share -> Publish.
+## Executando o Backend (Spring Boot)
 
-## Can I connect a custom domain to my Lovable project?
+1. Navegue até o diretório do backend:
 
-Yes, you can!
+```bash
+cd backend
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+2. Rode a aplicação:
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+```bash
+./mvnw spring-boot:run
+```
+
+A API estará disponível em `http://localhost:`.
+
+---
+
+## Consumo da API no Frontend
+
+No `Dashboard.tsx`, os dados são buscados usando `fetch`:
+
+```ts
+useEffect(() => {
+  fetch('http://localhost:8080/stats/games/top5')
+    .then(res => res.json())
+    .then(data => setTeamsRanking(data));
+
+  fetch('http://localhost:8080/stats/players/top5')
+    .then(res => res.json())
+    .then(data => setPlayersRanking(data));
+}, []);
+```
+
+O estado `teamsRanking` e `playersRanking` é atualizado dinamicamente para renderizar os cards.
+
+---
+
+## Layout e Estilo
+
+* Layout baseado em **cards** para exibir estatísticas.
+* Ícones indicando posição (coroa para 1º, medalha para 2º/3º).
+* Mudança de cores indicando evolução ou queda no ranking (`+` verde, `-` vermelho, `0` cinza).
+* Responsividade garantida pelo Tailwind CSS.
+
+---
+
+## Observações
+
+* A API backend está em memória, ou seja, os dados são estáticos e reiniciam a cada deploy.
+* Para dados reais, é possível integrar com o [StatsBomb Open Data](https://github.com/statsbomb/open-data)
+
+
+---
+
+## License
+
+MIT License

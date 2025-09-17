@@ -45,8 +45,8 @@ All colors MUST be HSL.
     --radius: 0.5rem;
 
     /* Gradients for feminine design */
-    --gradient-primary: linear-gradient(135deg, hsl(320 60% 65%), hsl(280 45% 75%));
-    --gradient-hero: linear-gradient(135deg, hsl(320 50% 85%), hsl(280 35% 90%));
+    --gradient-primary: linear-gradient(135deg, hsl(143, 42%, 46%), hsl(172, 41%, 56%));
+    --gradient-hero: linear-gradient(135deg, hsl(161, 40%, 40%), hsl(149, 27%, 80%));
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(320 15% 98%));
     
     /* Shadows */
@@ -109,7 +109,7 @@ All colors MUST be HSL.
     --ring: 320 65% 70%;
     
     /* Dark mode gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(320 65% 70%), hsl(280 50% 80%));
+    --gradient-primary: linear-gradient(135deg, hsl(120, 66%, 21%), hsl(280 50% 80%));
     --gradient-hero: linear-gradient(135deg, hsl(320 15% 8%), hsl(320 20% 12%));
     --gradient-card: linear-gradient(145deg, hsl(320 15% 10%), hsl(320 18% 12%));
     --sidebar-background: 240 5.9% 10%;
