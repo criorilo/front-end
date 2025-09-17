@@ -368,6 +368,7 @@ const SocialFeed = () => {
                           <p className="text-sm text-muted-foreground">{post.time}</p>
                         </div>
                       </div>
+                      
                       <Badge 
                         variant="outline" 
                         className={`border-current ${
